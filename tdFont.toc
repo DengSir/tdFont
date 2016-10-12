@@ -3,4 +3,4 @@
 ## Author: DengSir
 ## Version: 70000.01
 
-Load.xml
+Addon.lua
