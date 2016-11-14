@@ -21,7 +21,7 @@ do
 end
 
 do
-    local hfont, hsize = GameTooltipTextLeft1:GetFont()
+    -- local hfont, hsize = GameTooltipTextLeft1:GetFont()
     -- GameTooltipHeaderText:SetFont(hfont, hsize, 'OUTLINE')
 
     local function OnTooltipSetItem(self)
