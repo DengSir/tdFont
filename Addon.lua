@@ -3,9 +3,7 @@ Addon.lua
 @Author  : DengSir (tdaddon@163.com)
 @Link    : https://dengsir.github.io
 ]]
-
-
-do
+ do
     NumberFont_GameNormal:SetFont([[Fonts\ARHei.TTF]], 13, 'OUTLINE')
 
     NumberFont_Outline_Med:SetFont([[Fonts\ARKai_T.TTF]], 13, 'OUTLINE')
@@ -16,7 +14,6 @@ do
     SystemFont_Shadow_Small:SetFont([[Fonts\ARKai_T.TTF]], 13)
     SystemFont_Shadow_Large:SetFont([[Fonts\ARKai_T.TTF]], 17)
 
-
     TextStatusBarText:SetFont([[Fonts\ARHei.TTF]], 11, 'OUTLINE')
 end
 
@@ -26,7 +23,8 @@ do
 
     local function OnTooltipSetItem(self)
         local name = self:GetName()
-        _G[name .. 'TextLeft2']:SetFontObject(_G[name .. 'TextLeft1']:GetText() == CURRENTLY_EQUIPPED and 'GameTooltipHeaderText' or 'GameTooltipText')
+        _G[name .. 'TextLeft2']:SetFontObject(_G[name .. 'TextLeft1']:GetText() == CURRENTLY_EQUIPPED and
+                                                  'GameTooltipHeaderText' or 'GameTooltipText')
     end
 
     local function SetTooltip(tooltip)
@@ -37,26 +35,26 @@ do
                 edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
                 tileSize = 16,
                 edgeSize = 16,
-                insets = { left = 3, right = 3, top = 3, bottom = 3 },
+                insets = {left = 3, right = 3, top = 3, bottom = 3},
             }
             backdrop:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b)
         end
 
-        _G[tooltip:GetName()..'TextLeft1']:SetFontObject('GameTooltipHeaderText')
-        _G[tooltip:GetName()..'TextRight1']:SetFontObject('GameTooltipHeaderText')
+        _G[tooltip:GetName() .. 'TextLeft1']:SetFontObject('GameTooltipHeaderText')
+        _G[tooltip:GetName() .. 'TextRight1']:SetFontObject('GameTooltipHeaderText')
 
         if tooltip.shoppingTooltips then
             for i, shopping in pairs(tooltip.shoppingTooltips) do
                 SetTooltip(shopping)
                 shopping:HookScript('OnTooltipSetItem', OnTooltipSetItem)
 
-                _G[shopping:GetName()..'TextLeft2']:SetFontObject('GameTooltipHeaderText')
-                _G[shopping:GetName()..'TextRight2']:SetFontObject('GameTooltipHeaderText')
+                _G[shopping:GetName() .. 'TextLeft2']:SetFontObject('GameTooltipHeaderText')
+                _G[shopping:GetName() .. 'TextRight2']:SetFontObject('GameTooltipHeaderText')
 
                 local i = 3
-                while _G[shopping:GetName()..'TextLeft'..i] do
-                    _G[shopping:GetName()..'TextLeft'..i]:SetFontObject('GameTooltipText')
-                    _G[shopping:GetName()..'TextRight'..i]:SetFontObject('GameTooltipText')
+                while _G[shopping:GetName() .. 'TextLeft' .. i] do
+                    _G[shopping:GetName() .. 'TextLeft' .. i]:SetFontObject('GameTooltipText')
+                    _G[shopping:GetName() .. 'TextRight' .. i]:SetFontObject('GameTooltipText')
                     i = i + 1
                 end
             end
@@ -66,4 +64,10 @@ do
     for _, tooltip in ipairs({GameTooltip, ItemRefTooltip, WorldMapTooltip}) do
         SetTooltip(tooltip)
     end
+
+    hooksecurefunc('SetTooltipMoney', function(tip)
+        local name = tip:GetName() .. 'MoneyFrame' .. tip.shownMoneyFrames
+        _G[name .. 'PrefixText']:SetFontObject('GameTooltipText')
+        _G[name .. 'SuffixText']:SetFontObject('GameTooltipText')
+    end)
 end
