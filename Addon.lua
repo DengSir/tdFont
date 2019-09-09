@@ -3,6 +3,13 @@ Addon.lua
 @Author  : DengSir (tdaddon@163.com)
 @Link    : https://dengsir.github.io
 ]]
+
+local function SetFontObject(obj, base)
+    if obj then
+        obj:SetFont(base:GetFont())
+    end
+end
+
  do
     NumberFont_GameNormal:SetFont([[Fonts\ARHei.TTF]], 13, 'OUTLINE')
 
@@ -70,4 +77,14 @@ do
         _G[name .. 'PrefixText']:SetFontObject('GameTooltipText')
         _G[name .. 'SuffixText']:SetFontObject('GameTooltipText')
     end)
+end
+
+if MonkeyQuestInit_SetButtonFonts then
+    MonkeyQuestInit_SetButtonFonts = nop
+
+    MonkeyQuestTitleFont:SetShadowColor(0,0,0)
+    MonkeyQuestTitleFont:SetShadowOffset(1,-1)
+
+    MonkeyQuestFont:SetShadowColor(0,0,0)
+    MonkeyQuestFont:SetShadowOffset(1,-1)
 end
