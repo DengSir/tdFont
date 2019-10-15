@@ -3,14 +3,13 @@ Addon.lua
 @Author  : DengSir (tdaddon@163.com)
 @Link    : https://dengsir.github.io
 ]]
-
-local function SetFontObject(obj, base)
+ local function SetFontObject(obj, base)
     if obj then
         obj:SetFont(base:GetFont())
     end
 end
 
- do
+do
     NumberFont_GameNormal:SetFont([[Fonts\ARHei.TTF]], 13, 'OUTLINE')
 
     NumberFont_Outline_Med:SetFont([[Fonts\ARKai_T.TTF]], 13, 'OUTLINE')
@@ -35,20 +34,25 @@ do
     end
 
     local function SetTooltip(tooltip)
-        local backdrop = tooltip.BackdropFrame or tooltip
-        if backdrop:GetBackdrop() then
-            backdrop:SetBackdrop{
-                bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]],
-                edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
-                tileSize = 16,
-                edgeSize = 16,
-                insets = {left = 3, right = 3, top = 3, bottom = 3},
-            }
-            backdrop:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b)
-        end
+        -- local backdrop = tooltip.BackdropFrame or tooltip
+        -- if backdrop:GetBackdrop() then
+        --     backdrop:SetBackdrop{
+        --         bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]],
+        --         edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+        --         tileSize = 16,
+        --         edgeSize = 16,
+        --         insets = {left = 3, right = 3, top = 3, bottom = 3},
+        --     }
+        --     backdrop:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b)
+        -- end
 
-        _G[tooltip:GetName() .. 'TextLeft1']:SetFontObject('GameTooltipHeaderText')
-        _G[tooltip:GetName() .. 'TextRight1']:SetFontObject('GameTooltipHeaderText')
+        local name = tooltip:GetName()
+
+        _G[name .. 'TextLeft1']:SetFontObject('GameTooltipHeaderText')
+        _G[name .. 'TextRight1']:SetFontObject('GameTooltipHeaderText')
+
+        -- _G[name .. 'TextLeft2']:SetPoint('TOP', _G[name .. 'TextLeft1'], 'BOTTOM', 0, -214)
+        -- _G[name .. 'TextRight2']:SetPoint('TOP', _G[name .. 'TextRight1'], 'BOTTOM', 0, -214)
 
         if tooltip.shoppingTooltips then
             for i, shopping in pairs(tooltip.shoppingTooltips) do
@@ -79,12 +83,18 @@ do
     end)
 end
 
-if MonkeyQuestInit_SetButtonFonts then
-    MonkeyQuestInit_SetButtonFonts = nop
+hooksecurefunc('GuildStatus_Update', function()
+    if not FriendsFrame.playerStatusFrame then
+        return
+    end
 
-    MonkeyQuestTitleFont:SetShadowColor(0,0,0)
-    MonkeyQuestTitleFont:SetShadowOffset(1,-1)
-
-    MonkeyQuestFont:SetShadowColor(0,0,0)
-    MonkeyQuestFont:SetShadowOffset(1,-1)
-end
+    for i = 1, GUILDMEMBERS_TO_DISPLAY, 1 do
+        local button = _G['GuildFrameButton' .. i]
+        if button.guildIndex then
+            local class = select(11, GetGuildRosterInfo(button.guildIndex))
+            if class and RAID_CLASS_COLORS[class] then
+                _G['GuildFrameButton' .. i .. 'Class']:SetTextColor(RAID_CLASS_COLORS[class]:GetRGB())
+            end
+        end
+    end
+end)
