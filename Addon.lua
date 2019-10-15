@@ -1,13 +1,6 @@
---[[
-Addon.lua
-@Author  : DengSir (tdaddon@163.com)
-@Link    : https://dengsir.github.io
-]]
- local function SetFontObject(obj, base)
-    if obj then
-        obj:SetFont(base:GetFont())
-    end
-end
+-- Addon.lua
+-- @Author  : DengSir (tdaddon@163.com)
+-- @Link    : https://dengsir.github.io
 
 do
     NumberFont_GameNormal:SetFont([[Fonts\ARHei.TTF]], 13, 'OUTLINE')
@@ -51,9 +44,6 @@ do
         _G[name .. 'TextLeft1']:SetFontObject('GameTooltipHeaderText')
         _G[name .. 'TextRight1']:SetFontObject('GameTooltipHeaderText')
 
-        -- _G[name .. 'TextLeft2']:SetPoint('TOP', _G[name .. 'TextLeft1'], 'BOTTOM', 0, -214)
-        -- _G[name .. 'TextRight2']:SetPoint('TOP', _G[name .. 'TextRight1'], 'BOTTOM', 0, -214)
-
         if tooltip.shoppingTooltips then
             for i, shopping in pairs(tooltip.shoppingTooltips) do
                 SetTooltip(shopping)
@@ -92,8 +82,9 @@ hooksecurefunc('GuildStatus_Update', function()
         local button = _G['GuildFrameButton' .. i]
         if button.guildIndex then
             local class = select(11, GetGuildRosterInfo(button.guildIndex))
-            if class and RAID_CLASS_COLORS[class] then
-                _G['GuildFrameButton' .. i .. 'Class']:SetTextColor(RAID_CLASS_COLORS[class]:GetRGB())
+            local color = class and RAID_CLASS_COLORS[class]
+            if color then
+                _G['GuildFrameButton' .. i .. 'Class']:SetTextColor(color:GetRGB())
             end
         end
     end
