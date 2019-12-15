@@ -14,6 +14,9 @@ do
     SystemFont_Shadow_Large:SetFont([[Fonts\ARKai_T.TTF]], 17)
 
     TextStatusBarText:SetFont([[Fonts\ARHei.TTF]], 11, 'OUTLINE')
+
+    CombatTextFont:SetFont([[Fonts\ARKai_C.TTF]], 24)
+    CombatTextFontOutline:SetFont([[Fonts\ARKai_C.TTF]], 24)
 end
 
 do
@@ -72,20 +75,3 @@ do
         _G[name .. 'SuffixText']:SetFontObject('GameTooltipText')
     end)
 end
-
-hooksecurefunc('GuildStatus_Update', function()
-    if not FriendsFrame.playerStatusFrame then
-        return
-    end
-
-    for i = 1, GUILDMEMBERS_TO_DISPLAY, 1 do
-        local button = _G['GuildFrameButton' .. i]
-        if button.guildIndex then
-            local class = select(11, GetGuildRosterInfo(button.guildIndex))
-            local color = class and RAID_CLASS_COLORS[class]
-            if color then
-                _G['GuildFrameButton' .. i .. 'Class']:SetTextColor(color:GetRGB())
-            end
-        end
-    end
-end)
